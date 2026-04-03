@@ -1,0 +1,15 @@
+# Ignore macOS system files
+.DS_Store
+assets/.DS_Store
+
+# Ignore raw large video files in the root of assets/
+assets/An 3.mp4
+assets/Eng 3.mp4
+assets/G12.mp4
+assets/G7.mp4
+assets/In 2.mov
+assets/V 1.mp4
+assets/V6(1).mp4
+
+# Ignore temporary git backup folder
+.git_backup/
