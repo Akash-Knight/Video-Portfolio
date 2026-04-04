@@ -1,0 +1,91 @@
+/* 
+   --------------------------------------------------
+   CSS Design System & Stylesheet for Video Portfolio
+   --------------------------------------------------
+*/
+
+:root {
+    /* Color Palette */
+    --bg-primary: #08090c;
+    --bg-secondary: #0f111a;
+    --bg-tertiary: #171a26;
+    --accent-purple: #8b5cf6;
+    --accent-cyan: #06b6d4;
+    --accent-pink: #ec4899;
+    --text-primary: #f3f4f6;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    
+    /* Layout & Styling Helpers */
+    --glass-bg: rgba(15, 17, 26, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+    
+    /* Neon Glows */
+    --glow-purple: 0 0 25px rgba(139, 92, 246, 0.35);
+    --glow-cyan: 0 0 25px rgba(6, 182, 212, 0.35);
+    --glow-pink: 0 0 25px rgba(236, 72, 153, 0.35);
+    
+    /* Typography */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.2s ease-out;
+}
+
+/* --------------------------------------------------
+   Reset & Base Styles
+   -------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+section {
+    position: relative;
+}
+
+.section-padding {
+    padding: 120px 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+button, input, textarea {
+    font-family: inherit;
+    background: none;
+    border: none;
+    color: inherit;
+    outline: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
