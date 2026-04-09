@@ -60,5 +60,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // --- 3. Mobile Navigation Drawer ---
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    mobileToggle.addEventListener('click', () => {
+        mobileToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Close mobile menu when a link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
 
 });
