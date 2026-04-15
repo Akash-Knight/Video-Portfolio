@@ -79,4 +79,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // --- 5. Portfolio Category Filter ---
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from other buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            // Add active to current
+            btn.classList.add('active');
+            
+            const filterValue = btn.getAttribute('data-filter');
+            
+            portfolioItems.forEach(item => {
+                if (filterValue === 'all') {
+                    item.classList.remove('hidden');
+                } else {
+                    if (item.classList.contains(filterValue)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    });
+
+
+
 });
