@@ -228,6 +228,20 @@
             </div>
         </section>
 
+    <!-- Video Modal / Lightbox -->
+    <div class="modal" id="video-modal" aria-hidden="true">
+        <button class="modal-close" id="modal-close" aria-label="Close Modal">&times;</button>
+        <div class="modal-content">
+            <div class="iframe-container" id="iframe-wrapper">
+                <iframe id="modal-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="video-container video-hidden" id="video-wrapper">
+                <video id="modal-video" controls playsinline></video>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
