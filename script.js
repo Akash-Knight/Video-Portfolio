@@ -107,5 +107,95 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // --- 6. Fullscreen Video Lightbox Modal ---
+    const videoModal = document.getElementById('video-modal');
+    const modalIframe = document.getElementById('modal-iframe');
+    const iframeWrapper = document.getElementById('iframe-wrapper');
+    const videoWrapper = document.getElementById('video-wrapper');
+    const modalVideo = document.getElementById('modal-video');
+    const modalClose = document.getElementById('modal-close');
+    const playShowreelBtns = document.querySelectorAll('.play-showreel-btn');
+    const portfolioCards = document.querySelectorAll('.portfolio-item');
+    const modalContent = document.querySelector('.modal-content');
+    
+    // Helper to open modal with url
+    function openVideoModal(url) {
+        // Reset modal content aspect ratio classes
+        modalContent.classList.remove('portrait', 'landscape');
+        
+        if (url.endsWith('.mp4')) {
+            // Local video playback
+            iframeWrapper.classList.add('video-hidden');
+            videoWrapper.classList.remove('video-hidden');
+            modalIframe.src = '';
+            
+            modalVideo.src = url;
+            modalVideo.load();
+            
+            // Detect portrait based on video filename (our standard reels)
+            const isPortrait = url.includes('G12.mp4') || 
+                               url.includes('G7.mp4') || 
+                               url.includes('In_2.mp4') || 
+                               url.includes('V6_1.mp4') || 
+                               url.includes('V_1.mp4');
+                               
+            if (isPortrait) {
+                modalContent.classList.add('portrait');
+            } else {
+                modalContent.classList.add('landscape');
+            }
+            
+            modalVideo.play().catch(err => {
+                console.log("Auto-play blocked, showing controls:", err);
+            });
+        } else {
+            // External YouTube iframe playback
+            videoWrapper.classList.add('video-hidden');
+            iframeWrapper.classList.remove('video-hidden');
+            modalVideo.src = '';
+            modalVideo.load();
+            
+            let embedUrl = url;
+            if (embedUrl.includes('youtube.com/embed/')) {
+                const separator = embedUrl.includes('?') ? '&' : '?';
+                embedUrl = `${embedUrl}${separator}autoplay=1&rel=0`;
+            }
+            modalIframe.src = embedUrl;
+            modalContent.classList.add('landscape');
+        }
+        
+        videoModal.classList.add('active');
+        videoModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // Lock scroll
+    }
+    
+    // Helper to close modal
+    function closeVideoModal() {
+        videoModal.classList.remove('active');
+        videoModal.setAttribute('aria-hidden', 'true');
+        modalIframe.src = ''; // Clear source to stop video playback
+        modalVideo.src = ''; // Clear video source
+        modalVideo.load();
+        document.body.style.overflow = ''; // Unlock scroll
+    }
+    
+    // Bind Showreel Buttons (opens default cinematic reel)
+    playShowreelBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openVideoModal('assets/optimized/Eng_3.mp4');
+        });
+    });
+    
+    // Bind Portfolio Item Card clicks
+    portfolioCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const videoUrl = card.getAttribute('data-video-url');
+            if (videoUrl) {
+                openVideoModal(videoUrl);
+            }
+        });
+    });
+
 
 });
