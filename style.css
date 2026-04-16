@@ -1042,3 +1042,29 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+/* --- High Performance Video Preview Styles --- */
+
+.hover-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.hover-video.playing {
+    opacity: 1;
+}
+
+.video-container.video-hidden {
+    display: none !important;
+}
+
+.iframe-container.video-hidden {
+    display: none !important;
+}
