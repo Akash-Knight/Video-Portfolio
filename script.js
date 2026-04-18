@@ -197,5 +197,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- 6.1 Dynamic Hover Video Previews ---
+    const imgContainers = document.querySelectorAll('.portfolio-img-container');
+    imgContainers.forEach(container => {
+        const card = container.closest('.portfolio-item');
+        if (!card) return;
+        
+        const previewUrl = card.getAttribute('data-preview-url');
+        if (!previewUrl) return;
+
+        let hoverVideo = null;
+        let playTimeout = null;
+
+        card.addEventListener('mouseenter', () => {
+            // 150ms debounce prevents video loading during fast-scrolling
+            playTimeout = setTimeout(() => {
+                hoverVideo = document.createElement('video');
+                hoverVideo.className = 'hover-video';
+                hoverVideo.muted = true;
+                hoverVideo.loop = true;
+                hoverVideo.playsinline = true;
+                hoverVideo.setAttribute('preload', 'auto');
+                
+                const source = document.createElement('source');
+                source.src = previewUrl;
+                source.type = 'video/mp4';
+                hoverVideo.appendChild(source);
+                
+                container.appendChild(hoverVideo);
+                
+                hoverVideo.addEventListener('playing', () => {
+                    hoverVideo.classList.add('playing');
+                });
+                
+                hoverVideo.play().catch(err => {
+                    console.log("Hover video play error:", err);
+                });
+            }, 150);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            if (playTimeout) {
+                clearTimeout(playTimeout);
+                playTimeout = null;
+            }
+            if (hoverVideo) {
+                const videoToDestroy = hoverVideo;
+                hoverVideo = null;
+                videoToDestroy.classList.remove('playing');
+                videoToDestroy.pause();
+                
+                // Allow transition to complete before removing from DOM
+                setTimeout(() => {
+                    videoToDestroy.remove();
+                }, 300);
+            }
+        });
+    });
+    
+    // Close triggers
+    modalClose.addEventListener('click', closeVideoModal);
+    videoModal.addEventListener('click', (e) => {
+        // Close if click is outside the modal content container
+        if (e.target === videoModal) {
+            closeVideoModal();
+        }
+    });
+    
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeVideoModal();
+        }
+    });
+
+
 
 });
