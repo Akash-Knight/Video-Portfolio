@@ -79,6 +79,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // --- 4. Navigation Active Section Highlighter (IntersectionObserver) ---
+    const sections = document.querySelectorAll('section');
+    const navLinksList = document.querySelectorAll('.nav-link:not(.nav-btn)');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '-30% 0px -40% 0px', // triggers when section is in middle of viewport
+        threshold: 0
+    };
+    
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinksList.forEach(link => {
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+
     // --- 5. Portfolio Category Filter ---
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
@@ -332,5 +362,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // --- 9. Scroll Reveal Effect ---
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                // Stop observing once animated
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '0px 0px -10% 0px', // triggers slightly before entering viewport fully
+        threshold: 0.05
+    });
+    
+    revealElements.forEach(el => {
+        revealObserver.observe(el);
+    });
 
 });
