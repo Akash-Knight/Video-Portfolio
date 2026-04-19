@@ -272,5 +272,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // --- 8. Contact Form Client-side Submission (EmailJS Integration) ---
+    // Initialize EmailJS with your Public Key
+    emailjs.init("MCMZqb4dIcxqwYyH2");
+
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('form-submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Visual loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Sending Message... <i class="fa-solid fa-spinner fa-spin" style="margin-left: 8px;"></i>';
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+            
+            // TODO: Replace these placeholders with your actual EmailJS credentials
+            const serviceID = "service_rfj3i57";   // Put your Service ID here
+            const templateID = "template_blqcy0d"; // Put your Template ID here
+            
+            emailjs.sendForm(serviceID, templateID, contactForm)
+                .then(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    
+                    const name = document.getElementById('name').value;
+                    
+                    // Form Success Visual Response
+                    formStatus.classList.add('success');
+                    formStatus.innerHTML = `<i class="fa-solid fa-circle-check"></i> Thank you, ${name}! Your inquiry has been sent. I'll get back to you within 24 hours.`;
+                    
+                    // Reset form inputs
+                    contactForm.reset();
+                    
+                    // Clear success message after 6 seconds
+                    setTimeout(() => {
+                        formStatus.style.opacity = '0';
+                        formStatus.style.transition = 'opacity 1s ease';
+                        setTimeout(() => {
+                            formStatus.innerHTML = '';
+                            formStatus.style.opacity = '1';
+                        }, 1000);
+                    }, 5000);
+                }, (error) => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    
+                    // Form Error Visual Response
+                    formStatus.classList.add('error');
+                    formStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Oops! Something went wrong. Please try again later.`;
+                    console.error("EmailJS Error:", error);
+                });
+        });
+    }
+
+
 
 });
